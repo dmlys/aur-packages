@@ -1,0 +1,22 @@
+pkgname=hunspell-ru-en-bilingual
+pkgver=20191002
+pkgrel=1
+pkgdesc="Russian-English Bilingual hunspell dictionary"
+arch=('any')
+url='https://github.com/titoBouzout/Dictionaries'
+license=('LGPL3')
+depends=('hunspell')
+makedepends=('git')
+source=("$pkgname"::git+https://github.com/titoBouzout/Dictionaries.git)
+sha256sums=('SKIP')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/hunspell"
+  install -dm755 "${pkgdir}/usr/share/myspell/dicts"
+  for dict in "$pkgname/Russian-English Bilingual".*; do
+    name=`basename "$dict"`
+    install -vm644 "${dict}" "${pkgdir}/usr/share/hunspell"
+
+    ln -sv "/usr/share/hunspell/${name}" "${pkgdir}/usr/share/myspell/dicts"
+  done
+}
