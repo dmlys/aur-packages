@@ -1,0 +1,32 @@
+pkgname=mingw-w64-xml-security-c
+pkgver='2.0.2'
+pkgrel=1
+pkgdesc='C++ Implementation of W3C security standards for XML (mingw-w64)'
+arch=('any')
+url='https://santuario.apache.org/'
+license=('APACHE')
+depends=('mingw-w64-crt' 'mingw-w64-environment' 'mingw-w64-openssl' 'mingw-w64-xerces-c')
+makedepends=('mingw-w64-gcc' 'rsync')
+options=('!strip' '!buildflags' 'staticlibs')
+source=('build-xml-security-c.sh'
+        'https://downloads.apache.org/santuario/c-library/xml-security-c-2.0.2.tar.bz2'
+        'https://downloads.apache.org/santuario/c-library/xml-security-c-2.0.2.tar.bz2.asc')
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP')
+validpgpkeys=('DCAA15007BED9DE690CD9523378B845402277962')
+
+_architectures="i686-w64-mingw32 x86_64-w64-mingw32"
+
+build() {
+	pushd xml-security-c-${pkgver}
+	bash ../build-xml-security-c.sh
+	popd
+}
+
+package() {
+  mkdir --parents "$pkgdir/usr/x86_64-w64-mingw32/include/xsec" "$pkgdir/usr/x86_64-w64-mingw32/lib"
+  rsync "xml-security-c-${pkgver}/xsec/"  "$pkgdir/usr/x86_64-w64-mingw32/include/xsec/" --chmod=u=rwX,go=rX --recursive --include="*.hpp" --include="*/" --exclude="*" --exclude="NSS" --exclude="unixutils"
+  rsync "xml-security-c-${pkgver}"/*.lib  "$pkgdir/usr/x86_64-w64-mingw32/lib/"          --chmod=u=rwX,go=rX
+  #chmod u=rwX,go=rX -R "$pkgdir/usr/x86_64-w64-mingw32"
+}
