@@ -3,7 +3,7 @@
 # added patching of some libs via perl oneliner
 
 pkgname=qtcreator-spellchecker-plugin-git
-pkgver=r306.b9d5182
+pkgver=r365.12b8c9f
 pkgrel=1
 pkgdesc="Spell Checker plugin for the Qt Creator IDE"
 groups=('qt')
@@ -25,7 +25,7 @@ pkgver() {
 build() {
     cd "${srcdir}/${pkgname}"
 
-    QMAKE=/usr/lib/qt6/bin/qmake
+    QMAKE=/usr/lib/qt6/bin/qmake6
     QTC_SOURCE=/usr/src/qtcreator QTC_BUILD=build $QMAKE \
         "LIBS+=-L/usr/lib/qtcreator/ -L/usr/lib/qtcreator/plugins" \
         "KSYNTAXHIGHLIGHTING_LIB_DIR=/usr/lib" "KSYNTAXHIGHLIGHTING_INCLUDE_DIR=/usr/include/KF5/KSyntaxHighlighting"
