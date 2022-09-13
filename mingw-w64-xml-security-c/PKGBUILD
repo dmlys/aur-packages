@@ -1,5 +1,5 @@
 pkgname=mingw-w64-xml-security-c
-pkgver='2.0.2'
+pkgver='2.0.4'
 pkgrel=1
 pkgdesc='C++ Implementation of W3C security standards for XML (mingw-w64)'
 arch=('any')
@@ -9,19 +9,25 @@ depends=('mingw-w64-crt' 'mingw-w64-environment' 'mingw-w64-openssl' 'mingw-w64-
 makedepends=('mingw-w64-gcc' 'rsync')
 options=('!strip' '!buildflags' 'staticlibs')
 source=('build-xml-security-c.sh'
-        'https://downloads.apache.org/santuario/c-library/xml-security-c-2.0.2.tar.bz2'
-        'https://downloads.apache.org/santuario/c-library/xml-security-c-2.0.2.tar.bz2.asc')
+        'xml-security-c.sha256.patch'
+        'https://downloads.apache.org/santuario/c-library/xml-security-c-2.0.4.tar.bz2'
+        'https://downloads.apache.org/santuario/c-library/xml-security-c-2.0.4.tar.bz2.asc')
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             'SKIP')
 validpgpkeys=('DCAA15007BED9DE690CD9523378B845402277962')
 
 _architectures="i686-w64-mingw32 x86_64-w64-mingw32"
 
+prepare() {
+  cd "${srcdir}/xml-security-c-${pkgver}"
+  patch -p1 -i "${srcdir}/xml-security-c.sha256.patch"
+}
+
 build() {
-	pushd xml-security-c-${pkgver}
+	cd xml-security-c-${pkgver}
 	bash ../build-xml-security-c.sh
-	popd
 }
 
 package() {

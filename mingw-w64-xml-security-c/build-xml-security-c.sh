@@ -7,8 +7,8 @@ thirdparty_include=(-I.)
 release_flags=($CXXFLAGS -O2 "${thirdparty_include[@]}")
   debug_flags=($CXXFLAGS -Og "${thirdparty_include[@]}")
 
-release_defines=(-D NDEBUG -D WIN32 -D _WIN32_WINNT=0x0502 -D _SCL_SECURE_NO_WARNINGS -D _CRT_SECURE_NO_DEPRECATE                      -D XSEC_BUILDING_LIBRARY -D XSEC_HAVE_OPENSSL -D XSEC_HAVE_WINCAPI)
-  debug_defines=(-D _DEBUG -D WIN32 -D _WIN32_WINNT=0x0502 -D _SCL_SECURE_NO_WARNINGS -D _CRT_SECURE_NO_DEPRECATE -D _XSEC_DO_MEMDEBUG -D XSEC_BUILDING_LIBRARY -D XSEC_HAVE_OPENSSL -D XSEC_HAVE_WINCAPI)
+release_defines=(-DNDEBUG -DWIN32 -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_WIN32_WINDOWS=0x0601 -D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE                     -DXSEC_BUILDING_LIBRARY -DXSEC_HAVE_OPENSSL -DXSEC_HAVE_WINCAPI)
+  debug_defines=(-D_DEBUG -DWIN32 -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -D_WIN32_WINDOWS=0x0601 -D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_XSEC_DO_MEMDEBUG -DXSEC_BUILDING_LIBRARY -DXSEC_HAVE_OPENSSL -DXSEC_HAVE_WINCAPI)
 
 function build
 {
@@ -23,5 +23,5 @@ function build
 	rm *.o
 } 
 
-build xml-security-c.lib "${debug_flags[@]}"   "${debug_defines[@]}"
-#build xml-security-c.lib "${release-flags[@]}" "${release-defines[@]}"
+#build xml-security-c.lib "${debug_flags[@]}"   "${debug_defines[@]}"
+build xml-security-c.lib "${release_flags[@]}" "${release_defines[@]}"
